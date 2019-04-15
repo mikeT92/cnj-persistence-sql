@@ -124,6 +124,12 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>edu.hm.cs.fwp.cloud</groupId>
+            <artifactId>cnj-persistence-sql-database</artifactId>
+            <version>1.0.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <version>${postgres.jdbc.version}</version>

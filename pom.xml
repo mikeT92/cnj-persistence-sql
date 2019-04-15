@@ -11,6 +11,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
     <modules>
+        <module>cnj-persistence-sql-database</module>
         <module>cnj-persistence-sql-backend-test</module>
         <module>cnj-persistence-sql-backend-javaee</module>
         <module>cnj-persistence-sql-backend-micro</module>
