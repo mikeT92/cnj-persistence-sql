@@ -1,0 +1,37 @@
+package edu.hm.cs.fwp.cloudtrain.core.boundary;
+
+import edu.hm.cs.fwp.cloudtrain.core.entity.Message;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
+
+import java.util.Locale;
+import java.util.UUID;
+
+/**
+ * Simple demo boundary to show how the authenticated user can be retrieved from the current Spring Security Context.
+ * <p>
+ *
+ * @author michael.theis@hm.edu
+ * @version 1.0
+ * @TODO: enable security on method level
+ * </p>
+ */
+@Service
+public class HelloWorld {
+
+    private static final String WELCOME_MESSAGE_TEMPLATE = "Dear \"%s\", welcome to a cloud native Java application protected by OpenID Connect!";
+
+    /**
+     * Returns a welcome message to the currently authenticated user.
+     */
+    public Message getWelcomeMessage() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String authenticatedUserId = authentication != null ? authentication.getName() : "anonymous";
+        Message result = new Message(UUID.randomUUID());
+        result.setCode("hello");
+        result.setLocale(Locale.GERMANY);
+        result.setText(String.format(WELCOME_MESSAGE_TEMPLATE, authenticatedUserId));
+        return result;
+    }
+}

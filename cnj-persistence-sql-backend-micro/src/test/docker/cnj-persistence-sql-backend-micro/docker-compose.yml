@@ -1,0 +1,18 @@
+# docker-compose.yml
+# ----------------------------------------------------------------------------
+# Composes Docker containers and volumes to a runnable Java EE application
+# ----------------------------------------------------------------------------
+#
+---
+version: '3'
+
+services:
+
+  backend:
+    image: hmfwpcnj/cnj-persistence-sql-backend-micro:latest
+    ports:
+      - "8080:8080"
+      - "4848:4848"
+    environment:
+      MP_JWT_VERIFY_PUBLICKEY_LOCATION: "http://192.168.99.100:9080/auth/realms/cloudtrain/protocol/openid-connect/certs"
+      MP_JWT_VERIFY_ISSUER: "http://192.168.99.100:9080/auth/realms/cloudtrain"
