@@ -1,4 +1,4 @@
-package edu.hm.cs.fwp.cloudtrain.adapter.persistence;
+package edu.hm.cs.fwp.cloudtrain.adapter.persistence.jpa.repository;
 
 import edu.hm.cs.fwp.cloud.common.persistence.jpa.repository.AbstractGenericRepository;
 

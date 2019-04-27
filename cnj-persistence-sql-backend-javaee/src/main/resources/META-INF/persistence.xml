@@ -8,6 +8,8 @@
         <class>edu.hm.cs.fwp.cloud.common.persistence.jpa.convert.LocalDateConverter</class>
         <class>edu.hm.cs.fwp.cloud.common.persistence.jpa.convert.LocalDateTimeConverter</class>
         <class>edu.hm.cs.fwp.cloud.common.persistence.jpa.convert.UuidConverter</class>
+        <class>edu.hm.cs.fwp.cloud.common.persistence.jpa.audit.AbstractAuditableEntity</class>
+        <class>edu.hm.cs.fwp.cloud.common.persistence.jpa.audit.AuditableEntityListener</class>
         <properties>
             <property name="eclipselink.deploy-on-startup" value="true" />
             <property name="eclipselink.jpql.validation" value="JPA 2.1" />

@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>edu.hm.cs.fwp.cloud</groupId>
     <artifactId>cnj-persistence-sql-backend-test</artifactId>
-    <version>1.0.0</version>
+    <version>${revision}${sha1}${changelist}</version>
     <packaging>jar</packaging>
     <description>System tests running on cloud native Java backends exposing REST endpoints</description>
     <properties>
@@ -13,7 +13,7 @@
         <javaee.version>8.0</javaee.version>
         <javax.json.version>1.1.4</javax.json.version>
         <junit.version>5.3.2</junit.version>
-        <cnj.common.test.version>1.0.0</cnj.common.test.version>
+        <cnj.common.test.version>1.0.1</cnj.common.test.version>
         <maven.enforcer.plugin.version>3.0.0-M2</maven.enforcer.plugin.version>
         <maven.compiler.plugin.version>3.8.0</maven.compiler.plugin.version>
         <maven.jar.plugin.version>3.1.1</maven.jar.plugin.version>
@@ -23,6 +23,11 @@
         <maven.install.plugin.version>2.5.2</maven.install.plugin.version>
         <maven.site.plugin.version>3.7.1</maven.site.plugin.version>
         <maven.surefire.plugin.version>2.22.1</maven.surefire.plugin.version>
+        <maven.flatten.plugin.version>1.1.0</maven.flatten.plugin.version>
+        <!-- new Maven version management -->
+        <revision>1.0.0</revision>
+        <sha1></sha1>
+        <changelist></changelist>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -112,8 +117,8 @@
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>${maven.compiler.plugin.version}</version>
                     <configuration>
-                        <source>1.8</source>
-                        <target>1.8</target>
+                        <source>${java.version}</source>
+                        <target>${java.version}</target>
                         <parameters>true</parameters>
                     </configuration>
                 </plugin>
@@ -144,6 +149,12 @@
                     <artifactId>maven-resources-plugin</artifactId>
                     <version>${maven.resources.plugin.version}</version>
                 </plugin>
+                <!-- Flatten Maven plugin adding support of CI friendly version numbers -->
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>flatten-maven-plugin</artifactId>
+                    <version>${maven.flatten.plugin.version}</version>
+                </plugin>
             </plugins>
         </pluginManagement>
         <plugins>
@@ -162,10 +173,34 @@
                                     <version>[3.5,)</version>
                                 </requireMavenVersion>
                                 <requireJavaVersion>
-                                    <version>1.8</version>
+                                    <version>${java.version}</version>
                                 </requireJavaVersion>
                             </rules>
                         </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>flatten-maven-plugin</artifactId>
+                <configuration>
+                    <updatePomFile>true</updatePomFile>
+                    <flattenMode>resolveCiFriendliesOnly</flattenMode>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>flatten</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>flatten</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>flatten.clean</id>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>clean</goal>
+                        </goals>
                     </execution>
                 </executions>
             </plugin>

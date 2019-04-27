@@ -6,7 +6,7 @@
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>ProtectedRestApi</web-resource-name>
-            <url-pattern>/api/v1/tasks</url-pattern>
+            <url-pattern>/api/v1/tasks/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>CLOUDTRAIN_USER</role-name>

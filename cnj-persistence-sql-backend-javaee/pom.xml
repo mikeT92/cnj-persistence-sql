@@ -3,13 +3,14 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>edu.hm.cs.fwp.cloud</groupId>
     <artifactId>cnj-persistence-sql-backend-javaee</artifactId>
-    <version>1.0.0</version>
+    <version>${revision}${sha1}${changelist}</version>
     <packaging>war</packaging>
     <description>Cloud native Java backend demonstrating JPA persistence based on Java EE Full Profile</description>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
+        <javaee.version>8.0</javaee.version>
         <junit.version>5.3.2</junit.version>
         <docker.organization.name>hmfwpcnj</docker.organization.name>
         <docker.image.name>${docker.organization.name}/${project.artifactId}</docker.image.name>
@@ -17,6 +18,7 @@
         <docker.cleanup>try</docker.cleanup>
         <docker.verbose>true</docker.verbose>
         <microprofile.version>2.1</microprofile.version>
+        <flyway.version>5.2.4</flyway.version>
         <postgres.jdbc.version>42.2.5</postgres.jdbc.version>
         <maven.docker.plugin.version>0.27.2</maven.docker.plugin.version>
         <maven.docker.compose.plugin.version>2.2.0</maven.docker.compose.plugin.version>
@@ -31,6 +33,11 @@
         <maven.install.plugin.version>2.5.2</maven.install.plugin.version>
         <maven.site.plugin.version>3.7.1</maven.site.plugin.version>
         <maven.war.plugin.version>3.2.2</maven.war.plugin.version>
+        <maven.flatten.plugin.version>1.1.0</maven.flatten.plugin.version>
+        <!-- new Maven version management -->
+        <revision>1.0.0</revision>
+        <sha1></sha1>
+        <changelist></changelist>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -45,7 +52,7 @@
             <dependency>
                 <groupId>javax</groupId>
                 <artifactId>javaee-api</artifactId>
-                <version>8.0</version>
+                <version>${javaee.version}</version>
                 <scope>compile</scope>
             </dependency>
             <!-- Miscellaneous 3rd party stuff -->
@@ -67,7 +74,7 @@
             <dependency>
                 <groupId>edu.hm.cs.fwp.cloud.common</groupId>
                 <artifactId>cnj-common-persistence-jpa</artifactId>
-                <version>1.0.0</version>
+                <version>1.0.1</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -124,15 +131,14 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+            <version>${flyway.version}</version>
+        </dependency>
+        <dependency>
             <groupId>edu.hm.cs.fwp.cloud</groupId>
             <artifactId>cnj-persistence-sql-database</artifactId>
             <version>1.0.0</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <version>${postgres.jdbc.version}</version>
         </dependency>
     </dependencies>
     <build>
@@ -148,8 +154,8 @@
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>${maven.compiler.plugin.version}</version>
                     <configuration>
-                        <source>1.8</source>
-                        <target>1.8</target>
+                        <source>${java.version}</source>
+                        <target>${java.version}</target>
                         <parameters>true</parameters>
                     </configuration>
                 </plugin>
@@ -204,10 +210,11 @@
                     <artifactId>docker-compose-maven-plugin</artifactId>
                     <version>${maven.docker.compose.plugin.version}</version>
                 </plugin>
-                <!-- Flyway Maven Plugin für das Aufsetzen/Migrieren des Schemas in der Datenbank jeedemo_db -->
+                <!-- Flatten Maven plugin adding support of CI friendly version numbers -->
                 <plugin>
-                    <groupId>org.flywaydb</groupId>
-                    <artifactId>flyway-maven-plugin</artifactId>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>flatten-maven-plugin</artifactId>
+                    <version>${maven.flatten.plugin.version}</version>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -227,10 +234,34 @@
                                     <version>[3.5,)</version>
                                 </requireMavenVersion>
                                 <requireJavaVersion>
-                                    <version>1.8</version>
+                                    <version>${java.version}</version>
                                 </requireJavaVersion>
                             </rules>
                         </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>flatten-maven-plugin</artifactId>
+                <configuration>
+                    <updatePomFile>true</updatePomFile>
+                    <flattenMode>resolveCiFriendliesOnly</flattenMode>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>flatten</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>flatten</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>flatten.clean</id>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>clean</goal>
+                        </goals>
                     </execution>
                 </executions>
             </plugin>
@@ -241,12 +272,6 @@
             <id>pre-commit-stage</id>
             <properties>
                 <test.target.route>http://192.168.99.100:8080</test.target.route>
-                <postgres.host>192.168.99.100</postgres.host>
-                <postgres.port>5432</postgres.port>
-                <postgres.database>cloudtrain</postgres.database>
-                <postgres.url>jdbc:postgresql://${postgres.host}:${postgres.port}/${postgres.database}</postgres.url>
-                <postgres.admin.user>postgres</postgres.admin.user>
-                <postgres.admin.password>changeit</postgres.admin.password>
             </properties>
             <build>
                 <plugins>
@@ -341,28 +366,6 @@
                                     <composeFile>
                                         ${project.basedir}/src/test/docker/${project.artifactId}/docker-compose.yml
                                     </composeFile>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.flywaydb</groupId>
-                        <artifactId>flyway-maven-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>migrate-database-schema</id>
-                                <phase>pre-integration-test</phase>
-                                <goals>
-                                    <goal>migrate</goal>
-                                </goals>
-                                <configuration>
-                                    <url>${postgres.url}</url>
-                                    <user>${postgres.admin.user}</user>
-                                    <password>${postgres.admin.password}</password>
-                                    <locations>
-                                        <location>classpath:db/migration</location>
-                                    </locations>
-                                    <connectRetries>10</connectRetries>
                                 </configuration>
                             </execution>
                         </executions>

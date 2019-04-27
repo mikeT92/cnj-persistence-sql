@@ -1,17 +1,14 @@
 package edu.hm.cs.fwp.cloudtrain.core.boundary;
 
-import edu.hm.cs.fwp.cloudtrain.adapter.persistence.GenericRepository;
-import edu.hm.cs.fwp.cloudtrain.core.entity.Message;
+import edu.hm.cs.fwp.cloudtrain.adapter.persistence.jpa.repository.GenericRepository;
 import edu.hm.cs.fwp.cloudtrain.core.entity.Task;
 
-import javax.annotation.Resource;
 import javax.annotation.security.RolesAllowed;
-import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import java.security.Principal;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -41,5 +38,9 @@ public class TaskManagement {
 
     public void removeTask(@NotNull UUID taskId) {
         this.repository.removeEntityById(Task.class, taskId);
+    }
+
+    public List<Task> getAllTasks() {
+        return this.repository.queryEntities(Task.class, Task.QUERY_ALL, null);
     }
 }

@@ -11,6 +11,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import java.net.URI;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -26,6 +27,14 @@ public class TasksResource {
 
     @Inject
     private TaskManagement boundary;
+
+    @GET
+    public Response getAllTasks() {
+        Response result;
+        List<Task> found = this.boundary.getAllTasks();
+        result = Response.ok(found).build();
+        return result;
+    }
 
     @GET
     @Path("{taskId}")
