@@ -20,13 +20,6 @@ import javax.ws.rs.core.Response;
  * implementations may include more complex health checkpoints and
  * may return some health information in JSON format.
  * </p>
- * <p>
- * In CloudTrain we are using this custom JAX-RS/CDI-based probes implementation
- * instead of the MicroProfile Health API to make sure that CDI managed REST
- * resource classes are actually available before accessing them. Unfortunately,
- * the MicroProfile Health API reports a server to be up and running <strong>before</strong>
- * CDI is actually up.
- * </p>
  */
 @RequestScoped
 @Path("v1/probes")

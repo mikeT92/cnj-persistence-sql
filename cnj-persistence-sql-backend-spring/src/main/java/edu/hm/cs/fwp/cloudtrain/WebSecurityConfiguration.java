@@ -51,7 +51,7 @@ public class WebSecurityConfiguration extends KeycloakWebSecurityConfigurerAdapt
      * </p>
      * <ul>
      * <li>that all role names are registered using a {@code ROLE_} prefix (which is spring security's default)</li>
-     * <li>that all role names are registered using uppercase letters
+     * <li>that all role names are registered using uppercase letters</li>
      * </ul>
      */
     @Autowired
@@ -82,9 +82,9 @@ public class WebSecurityConfiguration extends KeycloakWebSecurityConfigurerAdapt
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         super.configure(http);
-        http
+        http.csrf().disable() // <== essential to switch off CSRF checking!
                 .authorizeRequests()
-                .antMatchers("/api/v1/hello").hasRole("CLOUDTRAIN_USER")
+                .antMatchers("/api/v1/tasks").hasRole("CLOUDTRAIN_USER")
                 .anyRequest().permitAll();
     }
 
