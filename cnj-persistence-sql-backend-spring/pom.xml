@@ -6,7 +6,8 @@
     <artifactId>cnj-persistence-sql-backend-spring</artifactId>
     <version>${revision}${sha1}${changelist}</version>
     <packaging>jar</packaging>
-    <description>Cloud native Java backend demonstrating JPA persistence based on Spring Boot / Spring Data</description>
+    <description>Cloud native Java backend demonstrating JPA persistence based on Spring Boot / Spring Data
+    </description>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>

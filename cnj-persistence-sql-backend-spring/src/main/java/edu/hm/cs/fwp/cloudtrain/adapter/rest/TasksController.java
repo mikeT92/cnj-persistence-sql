@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import org.springframework.web.util.UriBuilder;
 
 import java.net.URI;
 import java.util.List;
@@ -22,7 +21,7 @@ public class TasksController {
     TaskManagement boundary;
 
     @GetMapping("{taskId}")
-    public ResponseEntity<Task> getTaskById(@PathVariable(name="taskId") UUID taskId) {
+    public ResponseEntity<Task> getTaskById(@PathVariable(name = "taskId") UUID taskId) {
         ResponseEntity result = null;
         Optional<Task> found = this.boundary.getTaskById(taskId);
         if (found.isPresent()) {
@@ -47,13 +46,13 @@ public class TasksController {
     }
 
     @PutMapping("{taskId}")
-    public ResponseEntity<Task> updateTask(@PathVariable(name="taskId") UUID taskId, @RequestBody Task task) {
+    public ResponseEntity<Task> updateTask(@PathVariable(name = "taskId") UUID taskId, @RequestBody Task task) {
         this.boundary.modifyTask(task);
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("{taskId}")
-    public ResponseEntity<Task> deleteTask(@PathVariable(name="taskId") UUID taskId) {
+    public ResponseEntity<Task> deleteTask(@PathVariable(name = "taskId") UUID taskId) {
         this.boundary.removeTask(taskId);
         return ResponseEntity.noContent().build();
     }

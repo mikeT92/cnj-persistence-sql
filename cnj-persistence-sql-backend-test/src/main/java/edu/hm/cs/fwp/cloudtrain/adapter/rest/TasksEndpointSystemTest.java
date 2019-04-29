@@ -68,7 +68,7 @@ public class TasksEndpointSystemTest {
     public void getWithValidTaskIdReturnsValidTask() {
         JsonObject expected = createTask();
         String location = addTask(expected);
-        ExtractableResponse response = given().auth().oauth2(fixture.getAccessToken())
+        ExtractableResponse response = given().log().body(true).auth().oauth2(fixture.getAccessToken())
                 .accept(ContentType.JSON)
                 .get(location)
                 .then()

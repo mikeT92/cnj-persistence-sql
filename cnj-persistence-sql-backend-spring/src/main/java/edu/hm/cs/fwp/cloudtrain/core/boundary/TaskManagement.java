@@ -3,12 +3,10 @@ package edu.hm.cs.fwp.cloudtrain.core.boundary;
 import edu.hm.cs.fwp.cloudtrain.adapter.persistence.jpa.repository.TaskRepository;
 import edu.hm.cs.fwp.cloudtrain.core.entity.Task;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.interceptor.TransactionAttribute;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -29,9 +27,8 @@ public class TaskManagement {
 
     @NotNull
     public UUID addTask(@NotNull @Valid Task newTask) {
-        newTask.setId(UUID.randomUUID());
-        this.repository.save(newTask);
-        return newTask.getId();
+        Task saved = this.repository.saveAndFlush(newTask);
+        return saved.getId();
     }
 
     public void modifyTask(@NotNull @Valid Task modifiedTask) {
