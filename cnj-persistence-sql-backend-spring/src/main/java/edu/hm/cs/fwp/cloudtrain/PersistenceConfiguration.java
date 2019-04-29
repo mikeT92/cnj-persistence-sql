@@ -12,6 +12,14 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import java.security.Principal;
 import java.util.Optional;
 
+/**
+ * Persistence configuration which initializes Spring Data JPA properly.
+ * <p>
+ * Represents a producer for AuditorAware<T> instances as well which are needed by the
+ * {@code AuditingEntityListener} of Spring Data. In this showcase we simply deal with user IDs
+ * for {@code createdBy} and {@code lastModifiedBy} not full-blown user entities.
+ * </p>
+ */
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories

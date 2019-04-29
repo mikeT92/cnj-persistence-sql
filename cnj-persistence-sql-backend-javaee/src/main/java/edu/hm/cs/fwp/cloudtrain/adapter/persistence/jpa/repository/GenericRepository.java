@@ -7,26 +7,31 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 /**
- * Konkrete Implementierung eines generischen Repositories.
- * 
- * @author theism
+ * Concrete Implementation of an {@link AbstractGenericRepository}.
+ * <p>
+ * Subclassing is required to bind the capabilities of {@code AbstractGenericRepository} to a local stateless
+ * session bean and to bind the {@code AbstractGenericRepository} to the actual {@code EntityManager} known to this
+ * application.
+ * </p>
+ *
+ * @author Michael Theis (mtheis@hm.edu)
  * @version 1.0
- * @since Release 2016.1
+ * @since release SS2019
  */
 @Stateless
 public class GenericRepository extends AbstractGenericRepository {
 
-	/**
-	 * Konkreter PersistenceContext für eine bestimmte PersistenceUnit
-	 */
-	@PersistenceContext
-	private EntityManager entityManager;
+    /**
+     * Actual persistence context of this application
+     */
+    @PersistenceContext
+    private EntityManager entityManager;
 
-	/**
-	 * @see edu.hm.cs.fwp.cloud.common.persistence.jpa.repository.AbstractGenericRepository#getEntityManager()
-	 */
-	@Override
-	protected EntityManager getEntityManager() {
-		return this.entityManager;
-	}
+    /**
+     * @see AbstractGenericRepository#getEntityManager()
+     */
+    @Override
+    protected EntityManager getEntityManager() {
+        return this.entityManager;
+    }
 }

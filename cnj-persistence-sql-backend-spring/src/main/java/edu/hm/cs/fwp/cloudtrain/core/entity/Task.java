@@ -15,8 +15,8 @@ import java.util.UUID;
 /**
  * {@code Entity} type that represents tasks.
  *
- * @author p534184
- * @version %PR% %PRT% %PO%
+ * @author Michael Theis (mtheis@hm.edu)
+ * @version 1.0
  * @since release 1.0 29.10.2012 17:27:22
  */
 @Entity

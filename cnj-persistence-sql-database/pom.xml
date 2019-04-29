@@ -205,15 +205,6 @@
     <profiles>
         <profile>
             <id>pre-commit-stage</id>
-            <properties>
-                <test.target.route>http://192.168.99.100:8080</test.target.route>
-                <postgres.host>192.168.99.100</postgres.host>
-                <postgres.port>5432</postgres.port>
-                <postgres.database>cloudtrain</postgres.database>
-                <postgres.url>jdbc:postgresql://${postgres.host}:${postgres.port}/${postgres.database}</postgres.url>
-                <postgres.admin.user>postgres</postgres.admin.user>
-                <postgres.admin.password>changeit</postgres.admin.password>
-            </properties>
         </profile>
     </profiles>
 </project>

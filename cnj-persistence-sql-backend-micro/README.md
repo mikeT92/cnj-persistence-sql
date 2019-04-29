@@ -1,7 +1,6 @@
 # cnj-persistence-sql-backend-micro
 
-Cloud native Java backend exposing REST endpoints protected by OpenID Connect security based on Eclipse MicroProfile.
-In this showcase, OpenID Connect security is added by using MicroProfile JWT Auth.
+Cloud native MicroProfile backend using JPA-based persistence to persist its domain model in a PostgreSQL database.
 
 ## Build this application 
 
@@ -11,25 +10,97 @@ See [cnj-persistence-sql](../README.md) for build instructions.
 mvn clean verify -P pre-commit-stage
 ```
 
-Build results: a Docker image containing an Payara MicroProfile application as Uber JAR.
+Build results: a Docker image containing an Payara MicroProfile application.
 
 ## Exposed REST endpoints
 
-### /api/v1/hello
+### /api/v1/tasks
 
-Returns a simple welcome message to the currently authenticated user.
+Manages Task entities.
 
 Method
 : GET
 
 URI
-: /api/v1/hello
+: /api/v1/tasks
 
 Parameter(s)
 : none
 
 Response
-: welcome message as JSON document
+: all existing Task entities
+
+Authentication type
+: Bearer Token
+
+Role(s) required
+: CLOUDTRAIN_USER
+
+Method
+: GET
+
+URI
+: /api/v1/tasks/{taskId}
+
+Parameter(s)
+: task ID as last path component
+
+Response
+: (200) Task identified by the given task ID or (404) if no Task with the given task ID can be found
+
+Authentication type
+: Bearer Token
+
+Role(s) required
+: CLOUDTRAIN_USER
+
+Method
+: POST
+
+URI
+: /api/v1/tasks
+
+Parameter(s)
+: Task as request body
+
+Response
+: (201) Location of newly created Task
+
+Authentication type
+: Bearer Token
+
+Role(s) required
+: CLOUDTRAIN_USER
+
+Method
+: PUT
+
+URI
+: /api/v1/tasks/{taskId}
+
+Parameter(s)
+: task ID of task to save as last path component plus Task to save as request body
+
+Response
+: (204) if Task could be saved successfully
+
+Authentication type
+: Bearer Token
+
+Role(s) required
+: CLOUDTRAIN_USER
+
+Method
+: DELETE
+
+URI
+: /api/v1/tasks/{taskId}
+
+Parameter(s)
+: task ID of Task to delete as last path component
+
+Response
+: (204) if Task could be deleted successfully
 
 Authentication type
 : Bearer Token
@@ -43,6 +114,11 @@ Role(s) required
 | --- | --- | --- |
 | MP_JWT_VERIFY_PUBLICKEY_LOCATION | x | REST endpoint of an OpenID Connect authentication provider returning the JWT key set |
 | MP_JWT_VERIFY_ISSUER | x | ID of the JWT's issuer |
+| POSTGRES_DB_USER | x | PostgreSQL database user | 
+| POSTGRES_DB_PASSWORD | x | PostgreSQL database user |
+| POSTGRES_DB_NAME | x | PostgreSQL database name |
+| POSTGRES_DB_HOST | x | PostgreSQL hostname |
+| POSTGRES_DB_PORT | x | PostgreSQL port number |
 
 
 ## Exposed Ports

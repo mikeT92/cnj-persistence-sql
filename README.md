@@ -1,10 +1,12 @@
 # cnj-persistence-sql
 
-Showcase of a "Hello-World" style cloud native Java application using OpenID Connect for REST endpoint protection.
-The actual integration of OpenID Connect security is demonstrated with three different Java backend technologies:
+Showcase of a simple cloud native Java application using JPA-based persistence to persist its domain model in
+a PostgreSQL database.
+
+The actual integration of JPA-based persistence is demonstrated with three different Java backend technologies:
 * Java EE (see: cnj-persistence-sql-backend-javaee)
 * Eclipse MicroProfile (see: cnj-persistence-sql-backend-micro)
-* Spring Boot (see: cnj-persistence-sql-backend-spring)
+* Spring Boot + Spring Data (see: cnj-persistence-sql-backend-spring)
 
 In this showcase, KeyCloak is used as an OpenID Connect Authentication Provider. 
 An pre-configured KeyCloak instance is provided [here](https://github.com/mikeT92/cnj-docker-keycloak).

@@ -327,7 +327,8 @@
                                         <image>
                                             <name>${docker.image.name}</name>
                                             <build>
-                                                <dockerFileDir>${project.build.directory}/docker-resources</dockerFileDir>
+                                                <dockerFileDir>${project.build.directory}/docker-resources
+                                                </dockerFileDir>
                                                 <tags>
                                                     <tag>${project.version}</tag>
                                                 </tags>

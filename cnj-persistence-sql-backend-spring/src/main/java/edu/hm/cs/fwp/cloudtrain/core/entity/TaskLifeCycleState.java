@@ -3,8 +3,8 @@ package edu.hm.cs.fwp.cloudtrain.core.entity;
 /**
  * Enumeration representing the life-cycle of a {@link Task}.
  *
- * @author p534184
- * @version %PR% %PRT% %PO%
+ * @author Michael Theis (mtheis@hm.edu)
+ * @version 1.0
  * @since release 1.0 31.10.2012 11:39:50
  */
 public enum TaskLifeCycleState {

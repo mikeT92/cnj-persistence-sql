@@ -1,55 +1,15 @@
-# cnj-persistence-sql-backend-javaee
+# cnj-persistence-sql-database
 
-Cloud native Java backend exposing REST endpoints protected by OpenID Connect security based on Java EE.
-In this showcase, OpenID Connect security is added by using MicroProfile JWT Auth.
+Provides all common database scripts for database migrations done by Flyway and is added to all persistence demo applications
+as a simple utility JAR dependency.
+
+The actual database migration will be performed by Flyway during application startup.
+
+In a real life application with only one specific backend technology you would most likely include these database scripts into your application.
 
 ## Build this application 
 
 See [cnj-persistence-sql](../README.md) for build instructions.
-
-``` 
-mvn clean verify -P pre-commit-stage
-```
-
-Build results: a Docker image containing an Payara Full Profile application server plus the deployed application.
-
-## Exposed REST endpoints
-
-### /api/v1/hello
-
-Returns a simple welcome message to the currently authenticated user.
-
-Method
-: GET
-
-URI
-: /api/v1/hello
-
-Parameter(s)
-: none
-
-Response
-: welcome message as JSON document
-
-Authentication type
-: Bearer Token
-
-Role(s) required
-: CLOUDTRAIN_USER
-
-## Exposed environment variables
-
-| Name | Required | Description |
-| --- | --- | --- |
-| MP_JWT_VERIFY_PUBLICKEY_LOCATION | x | REST endpoint of an OpenID Connect authentication provider returning the JWT key set |
-| MP_JWT_VERIFY_ISSUER | x | ID of the JWT's issuer |
-
-
-## Exposed Ports
-
-| Port | Protocol | Description |
-| --- | --- | --- |
-| 8080 | HTTP | HTTP endpoint of this application | 
  
 ## Version / Tags
 

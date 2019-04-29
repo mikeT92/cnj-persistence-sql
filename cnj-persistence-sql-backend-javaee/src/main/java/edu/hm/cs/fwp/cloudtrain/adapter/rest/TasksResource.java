@@ -1,13 +1,11 @@
 package edu.hm.cs.fwp.cloudtrain.adapter.rest;
 
 import edu.hm.cs.fwp.cloudtrain.core.boundary.TaskManagement;
-import edu.hm.cs.fwp.cloudtrain.core.entity.Message;
 import edu.hm.cs.fwp.cloudtrain.core.entity.Task;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import java.net.URI;

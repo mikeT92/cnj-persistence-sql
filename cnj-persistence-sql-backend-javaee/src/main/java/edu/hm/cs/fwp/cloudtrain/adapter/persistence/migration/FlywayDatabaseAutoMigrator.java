@@ -8,9 +8,16 @@ import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.sql.DataSource;
 
+/**
+ * Flyway database auto-migrator that performs database migrations on application startup.
+ * <p>
+ * All migration statements must be located at {@code classpath:db/migration} which might be either
+ * packaged with this application or with a utility JAR of this application.
+ * </p>
+ */
 @Startup
 @Singleton
-public class AutoMigrator {
+public class FlywayDatabaseAutoMigrator {
 
     @Resource(lookup = "jdbc/cnj-postgres-datasource")
     private DataSource dataSource;

@@ -3,6 +3,9 @@ package edu.hm.cs.fwp.cloudtrain;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+/**
+ * Point of entry for this Spring Boot application.
+ */
 @SpringBootApplication
 public class SpringPersistenceApplication {
 
